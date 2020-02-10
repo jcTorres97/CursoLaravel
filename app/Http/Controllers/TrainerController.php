@@ -14,8 +14,10 @@ class TrainerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->user()->authorizeRoles('admin');
+        
         $trainers = Trainer::all();
 
         return view('trainers.index', compact('trainers'));
@@ -57,7 +59,8 @@ class TrainerController extends Controller
         $trainer->avatar = $name;
         $trainer->save();
 
-        return 'Saved';
+        return redirect()->route('trainers.index')->with('status','Entrenador creado correctamente');
+        // return 'Saved';
         // return $request;
     }
 
@@ -103,7 +106,7 @@ class TrainerController extends Controller
         }
         $trainer->save();
 
-        return 'updated';
+        return redirect()->route('trainers.show', [$trainer])->with('status','Entrenador actualizado correctamente');
     }
 
     /**
@@ -118,6 +121,6 @@ class TrainerController extends Controller
         \File::delete($file_path);
         $trainer->delete();
 
-        return 'deleted';
+        return redirect()->route('trainers.index')->with('status','Entrenador eliminado correctamente');
     }
 }

@@ -16,4 +16,12 @@ class Trainer extends Model
 	{
 	    return 'slug';
 	}
+
+	/**
+     * Get the pokemon for the trainer.
+     */
+    public function pokemons()
+    {
+        return $this->hasMany('LaraDex\Pokemon');
+    }
 }
